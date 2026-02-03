@@ -1,0 +1,2 @@
+Python, python, PYTHON! Data moves the world. Data-driven models are everywhere: in science, in games, in robotics.
+But the real trick is clean thinking: clean code, clean tests, and clean results.
