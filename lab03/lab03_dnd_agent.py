@@ -12,7 +12,7 @@ options = {'temperature': 0.8, 'max_tokens': 200}
 messages = [
   {'role': 'system', 'content': (
     "You are the game's dungeon master and narrator. Remain imaginative. Do not break character."
-    #"The AI should ask the player, 'What is your name?' on the first turn only."
+    #"The AI should ask the player, 'What is your name?' on the first turn only." --- removed
     "Set the scene in a vivid fantasy style, immersing the player in a rich narrative. "
     "Describe the immediate surroundings, any nearby NPCs or items of interest, and any immediate threats. "
     "Then ask the player a single question: 'What do you do?'"
