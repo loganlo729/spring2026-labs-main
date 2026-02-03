@@ -14,9 +14,11 @@
 #### Result
 >What was the result?
 1) After a bit of experimenting, I was able to get the model to stay on track without hallucinations. It now can describe vivid scenery and allow some progression. However, it is still extremely repetitive, and it tends to go on describing the same physical sensations.
-2) I could not get it to ask for a name. It seems like when it learns a new pattern, it will continue to follow that one pattern without any breaks. So even though I tell it to ask for the player's name, it will not take a break from describing the scene. When it does break, though, it reverts back to standard chatbot mode.
+2) It seems like when the model learns a new pattern, it will continue to follow that one pattern without any breaks. So even though I tell it to ask for the player's name, it will not take a break from describing the scene. If it asks the player's name, it will continue to do so indefinitely.
+3) I added more guidelines about player choice and adapting to player actions. It seemed to work, as it repeats itself much less than it did prior.
 
 #### Reflection/Analysis of the result. 
 >Why do you think it did or did not work?
 1) It worked because the instructions were detailed enough to keep the bot from hallucinating. It did revert to a standard chatbot sometimes and asked how it could help.
 2) The AI model used is not complex enough to keep track of multiple patterns/rules. The only way to integrate new features would be to update the model or add them to the program manually.
+3) Adding subtle guidelines worked better than telling it to take specific actions. It can keep a consistent tone but it can't keep track of multiple processes. Before this, I tried to add a turn counter to the bot, and it ignored the prompt.
