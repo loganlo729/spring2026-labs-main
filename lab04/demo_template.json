@@ -1,7 +1,7 @@
 {
-  "model": "llama3.2",
+  "model": "gemma3:270m",
   "options": {
-    "temperature": 1,
+    "temperature": 0.8,
     "max_tokens": 100, 
     "seed": "Pulin Agrawal"
   },

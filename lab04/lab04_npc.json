@@ -1,12 +1,12 @@
 {
-  "model": "gemma3",
+  "model": "gemma3:270m",
   "options": {
-    "temperature": 0,
-    "seed" :"Pulin Agrawal",
+    "temperature": 0.8,
+    "seed" :"Logan Lott",
     "max_tokens": 100
   },
   "messages": [
-      { "role": "system", "content": "You are a npc that the players will encounter in a DnD adventure. You will be friendly to the player and may offer them quests or information."}, 
+      { "role": "system", "content": "You are an NPC that the players will encounter in a DnD adventure. You will be friendly to the player and may offer them quests or information."}, 
       { "role": "user", "content": "" }
   ]
 }

@@ -1,8 +1,8 @@
 {
-  "model": "gemma3",
+  "model": "gemma3:270m",
   "options": {
-    "temperature": 0,
-    "seed" :"Pulin Agrawal",
+    "temperature": 0.8,
+    "seed" :"Logan Lott",
     "max_tokens": 100
   },
   "messages": [
