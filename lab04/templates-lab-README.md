@@ -23,4 +23,4 @@ Run `lab04.py` directly to start the DM chat. The DM will select an encounter, a
 
 ## Grading
 - **Functionality**: The DM chat starts correctly, and the program routes to the correct agent based on DM output.
-- **Template Usage**: Template variables are provided and used correctly.
+- **Template Usage**: Template variables are provided and `used correctly.

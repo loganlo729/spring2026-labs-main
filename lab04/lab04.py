@@ -6,6 +6,9 @@ sys.path.append(str(Path(__file__).parents[1]))
 from util.llm_utils import AgentTemplate
 
 # Add code here
+DM_TEMPLATE = 'lab04\\lab04_dm.json'
+NPC_TEMPLATE = 'lab04\\lab04_npc.json'
+ENEMY_TEMPLATE = 'lab04\\lab04_enemy.json'
 
 # But before here.
 
@@ -22,18 +25,18 @@ def run_console_chat(template_file, agent_name='Agent', **kwargs):
     while True:
         print(f'{agent_name}: {response}')
         try:
-            response = chat.send(input('You: '))
             # Add code here to check which agent chat should be started
-            if 'npc' in response:
-                # Start NPC chat
+            if 'npc' in response.lower():
                 print('Starting npc chat...')
-                npc_template_file = 'lab04\\lab04_npc.json'
-                run_console_chat(template_file=npc_template_file, agent_name='npc')
-            elif 'enemy' in response:
-                # Start Enemy chat
+                run_console_chat(template_file=NPC_TEMPLATE, agent_name='npc')
+                return
+
+            elif 'enemy' in response.lower():
                 print('Starting enemy chat...')
-                enemy_template_file = 'lab04\\lab04_enemy.json'
-                run_console_chat(template_file=enemy_template_file, agent_name='enemy')
+                run_console_chat(template_file=ENEMY_TEMPLATE, agent_name='enemy')
+                return
+            
+            response = chat.send(input('You: '))
 
             # But before here.
         except StopIteration as e:
@@ -41,9 +44,11 @@ def run_console_chat(template_file, agent_name='Agent', **kwargs):
 
 if __name__ ==  '__main__':
     # Add code here to start DM chat
-    dm_template_file = 'lab04\\lab04_dm.json'
     print('Starting dm chat...')
-    run_console_chat(template_file=dm_template_file, agent_name='dm',
-                     encounters='a goblin ambush, a riddle bridge, and a dragon lair')
+    run_console_chat(
+        template_file=DM_TEMPLATE,
+        agent_name='dm',
+        encounters='a goblin ambush, a riddle bridge, and a dragon lair'
+    )
     # But before here.
     pass
