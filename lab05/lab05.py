@@ -23,9 +23,20 @@ def roll_for(skill, dc, player):
         return f'{player} rolled {roll} for {skill} and failed!'
 
 def process_response(self, response):
-    # Fill out this function to process the response from the LLM
-    # and make the function call
-    # Hint: check response.message.tool_calls and use process_function_call
+    if hasattr(response.message, 'tool_calls') and response.message.tool_calls:
+        print("Tools called: ", response.message.tool_calls)
+        for tool_call in response.message.tool_calls:
+            result = process_function_call(tool_call.function)
+            print(f"Tool result: {result}")
+            # Append the tool result to messages
+            self.messages.append({
+                'role': 'tool',
+                'name': tool_call.function.name, 
+                'content': result
+            })
+        # Get the LLM's response to the tool result
+        response = self.completion()
+        self.messages.append({'role': response.message.role, 'content': response.message.content})
     return response
 
 run_console_chat(template_file='lab05/lab05_dice_template.json',
