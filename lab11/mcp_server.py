@@ -56,41 +56,37 @@ CHARACTERS = {
 def roll_dice(n_dice: int, sides: int, modifier: int = 0) -> str:
     """
     Roll n_dice dice with the given number of sides, plus a modifier.
-
-    TODO:
-    - Roll each die using random.randint(1, sides)
-    - Sum the rolls and add the modifier
-    - Return a message like "Rolled 3d6+2: [4, 2, 5] + 2 = 13"
     """
     # TODO: Implement dice rolling
-    pass
+    rolls = [random.randint(1, sides) for _ in range(n_dice)]
+    total = sum(rolls) + modifier
+    return f"Rolled {n_dice}d{sides}+{modifier}: {rolls} + {modifier} = {total}"
 
 
 def get_character_stat(character: str, stat: str) -> str:
     """
     Look up a character's stat from the CHARACTERS dict.
-
-    TODO:
-    - Normalize character and stat to lowercase
-    - Look up the character in CHARACTERS
-    - Return the stat value, e.g. "Fighter's strength is 16"
-    - Handle invalid character/stat names gracefully
     """
-    # TODO: Implement character stat lookup
-    pass
+    character = character.lower()
+    stat = stat.lower()
+    character_data = CHARACTERS.get(character)
+    if not character_data:
+        return f"Character not found: {character}"
+    stat_value = character_data.get(stat)
+    if stat_value is None:
+        return f"Stat not found for {character}: {stat}"
+    return f"{character.capitalize()}'s {stat} is {stat_value}"
 
 
 def calculate_damage(base_damage: int, armor_class: int, attack_roll: int) -> str:
     """
     Calculate damage dealt based on attack roll vs armor class.
-
-    TODO:
-    - If attack_roll >= armor_class, the attack hits (return base_damage info)
-    - Otherwise, the attack misses (0 damage)
-    - Return a descriptive message
     """
     # TODO: Implement damage calculation
-    pass
+    if (attack_roll >= armor_class):
+        return f"Attack hits! Base damage: {base_damage}"
+    else:
+        return f"Attack misses! No damage dealt."
 
 
 # =====================================================================
@@ -134,19 +130,42 @@ async def list_tools() -> list[Tool]:
     """
     return [
         # TODO: Define your tools here
-        # Example:
-        # Tool(
-        #     name="roll_dice",
-        #     description="Roll dice for DnD",
-        #     inputSchema={
-        #         "type": "object",
-        #         "properties": {
-        #             "n_dice": {"type": "integer", "description": "Number of dice"},
-        #             ...
-        #         },
-        #         "required": ["n_dice", "sides"]
-        #     }
-        # ),
+        Tool(
+            name="roll_dice",
+            description="Roll dice for DnD",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "n_dice": {"type": "integer", "description": "Number of dice"}
+                },
+                "required": ["n_dice", "sides"]
+            }
+        ),
+        Tool(
+            name="get_character_stat",
+            description="Get a character's stat for DnD",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "character": {"type": "string", "description": "Character name"},
+                    "stat": {"type": "string", "description": "Stat name"}
+                },
+                "required": ["character", "stat"]
+            }
+        ),
+        Tool(
+            name="calculate_damage",
+            description="Calculate damage for DnD",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "base_damage": {"type": "integer", "description": "Base damage amount"},
+                    "armor_class": {"type": "integer", "description": "Target's armor class"},
+                    "attack_roll": {"type": "integer", "description": "The attack roll result"}
+                },
+                "required": ["base_damage", "armor_class", "attack_roll"]
+            }
+        )
     ]
 
 

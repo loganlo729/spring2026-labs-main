@@ -1,0 +1,11 @@
+- What method is called first when a client connects to a server?
+
+An initialize request is sent by the client to the server when connecting.
+
+- What information does `tools/list` return?
+
+tools/list returns the list of tools that a server provides with information surrounding each one such as description, type, and required fields.
+
+- What is the structure of a `tools/call` request?
+
+A tools/call request is structured as a jsonrpc request to the server with no parameters.
