@@ -1,32 +1,15 @@
-"""
-Lab 11: MCP + LangGraph Integration
-=====================================
-YOUR TASK: Connect your MCP server to a LangGraph ReAct agent for LLM-powered tool calling.
-
-This script should:
-1. Connect to your MCP server (mcp_server.py)
-2. Load MCP tools as LangChain-compatible tools using load_mcp_tools()
-3. Create a LangGraph ReAct agent with Ollama as the LLM
-4. Send user queries through the agent, which handles tool calling automatically
-5. Return the final response
-
-Contrast this with Lab 05's manual approach - LangGraph handles the tool-calling
-loop for you!
-"""
-
 import asyncio
 import sys
 from pathlib import Path
 
 # MCP imports
-from langgraph.prebuilt import create_react_agent
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
-# LangChain MCP adapter - converts MCP tools to LangChain-compatible tools
+# LangChain MCP adapter
 from langchain_mcp_adapters.tools import load_mcp_tools
 
-# LangGraph - prebuilt ReAct agent that handles the tool-calling loop
+# Updated agent import
 from langchain.agents import create_agent
 
 # Ollama LLM via LangChain
@@ -44,26 +27,17 @@ SYSTEM_PROMPT = (
 
 async def chat_with_tools(user_message: str, agent) -> str:
     """
-    Send a message to the LangGraph agent and return the final response.
-
-    TODO: Invoke the agent with the user message and extract the final answer.
-
-    Hint: The agent accepts a dict with a "messages" key containing a list of
-    (role, content) tuples:
-        result = await agent.ainvoke({"messages": [("human", user_message)]})
-
-    The result is also a dict with a "messages" key. The last message is the
-    agent's final response - return its .content attribute.
+    Send a message to the agent and return the final response.
     """
-    # TODO: Invoke the LangGraph agent and return the final response
-    result = await agent.ainvoke({"messages": [("human", user_message)]})
-    return result["messages"][-1].content
-    
-
+    try:
+        result = await agent.ainvoke({
+            "messages": [{"role": "user", "content": user_message}]
+        })
+        return result["messages"][-1].content
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 async def main():
-    """Main function to run the MCP + LangGraph integration."""
-
     print("=" * 60)
     print("Lab 11: MCP + LangGraph Integration")
     print("=" * 60)
@@ -85,9 +59,6 @@ async def main():
             await session.initialize()
             print("[OK] Connected to MCP server!")
 
-            # TODO: Load MCP tools as LangChain-compatible tools
-            # Use load_mcp_tools(session) - it returns a list of BaseTool objects
-            # that LangGraph can use directly (no manual format conversion needed!)
             tools = await load_mcp_tools(session)
 
             print(f"\nFound {len(tools)} tools:")
@@ -98,16 +69,14 @@ async def main():
                 print("\nNo tools found! Make sure you've implemented list_tools() in mcp_server.py")
                 return
 
-            # Create the Ollama LLM
             llm = ChatOllama(model=OLLAMA_MODEL)
 
-            # TODO: Create a LangGraph ReAct agent
-            # Pass the llm, tools, and SYSTEM_PROMPT (as state_modifier) to create_react_agent.
-            # The agent will automatically handle the tool-calling loop - no manual loop needed!
-            # agent = create_react_agent(llm, tools, state_modifier=SYSTEM_PROMPT)
-            agent = create_react_agent(llm, tools, state_modifier=SYSTEM_PROMPT)
+            agent = create_agent(
+                model=llm,
+                tools=tools,
+                system_prompt=SYSTEM_PROMPT
+            )
 
-            # Interactive chat loop
             print("\n" + "-" * 60)
             print("Chat with the DnD assistant (type 'quit' to exit)")
             print("Try: 'Roll a d20 for an attack' or 'What is the fighter's strength?'")
@@ -122,7 +91,7 @@ async def main():
                 if not user_input:
                     continue
 
-                if user_input.lower() in ['quit', 'exit', 'q']:
+                if user_input.lower() in ["quit", "exit", "q"]:
                     print("Goodbye!")
                     break
 
