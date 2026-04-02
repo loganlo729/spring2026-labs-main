@@ -132,7 +132,7 @@ async def list_tools() -> list[Tool]:
         # TODO: Define your tools here
         Tool(
             name="roll_dice",
-            description="Roll dice for DnD",
+            description="Roll one or more dice. Call this tool with plain integer JSON fields: n_dice and sides.",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -144,7 +144,7 @@ async def list_tools() -> list[Tool]:
         ),
         Tool(
             name="get_character_stat",
-            description="Get a character's stat for DnD",
+            description="Get a character's stat for DnD ",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -156,7 +156,7 @@ async def list_tools() -> list[Tool]:
         ),
         Tool(
             name="calculate_damage",
-            description="Calculate damage for DnD",
+            description="Calculate DnD damage. Call this tool with plain integer JSON fields only: base_damage, armor_class, and attack_roll.",
             inputSchema={
                 "type": "object",
                 "properties": {

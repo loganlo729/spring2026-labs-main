@@ -22,6 +22,18 @@ OLLAMA_MODEL = "llama3.2:latest"
 SYSTEM_PROMPT = (
     "You are a helpful DnD assistant. "
     "Use the available tools to help players with dice rolls, character stats, and damage calculations."
+    """
+    You are a DnD assistant with access to tools.
+
+    Rules for tool calling:
+    - Pass tool arguments as raw JSON values.
+    - All numeric arguments must be plain integers, not strings.
+    - Do not wrap integers in objects like {"type": "integer", "value": "20"}.
+    - For roll_dice, always provide both n_dice and sides.
+    - If the user says "a d20", interpret that as n_dice=1 and sides=20.
+    - For calculate_damage, always provide base_damage, armor_class, and attack_roll as integers.
+    - If any required value is missing, ask the user for it instead of guessing.
+    """
 )
 
 
