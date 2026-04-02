@@ -136,7 +136,8 @@ async def list_tools() -> list[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "n_dice": {"type": "integer", "description": "Number of dice"}
+                    "n_dice": {"type": "integer", "description": "Number of dice"},
+                    "sides": {"type": "integer", "description": "Number of sides on each die"}
                 },
                 "required": ["n_dice", "sides"]
             }
