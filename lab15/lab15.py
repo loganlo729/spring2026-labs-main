@@ -45,12 +45,10 @@ def choose_action(state, action_space, epsilon):
         zeros. When `epsilon == 0.0` this function must act greedily;
         measurement mode relies on that.
     """
-
-    # TODO: replace this line with your epsilon-greedy implementation.
-    if random.random() < epsilon:
+    if random() < epsilon:
         return action_space.sample()
     else:
-        return max(action_space, key=lambda a: Q[(state, a)])
+        return max(range(action_space.n), key=lambda a: Q[(state, a)])
 
 
 def update_from_episode(episode):
